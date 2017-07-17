@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Profile>Reach</Profile>
+  <Platform>Windows</Platform>
+  <Config />
+  <SourceFiles>
+    <File>c:/Users/qweas/Documents/Visual Studio 2015/Projects/football/football/Content/monogame_img03.png</File>
+    <File>c:/Users/qweas/Documents/Visual Studio 2015/Projects/football/football/Content/monogame_img04.png</File>
+    <File>c:/Users/qweas/Documents/Visual Studio 2015/Projects/football/football/Content/monogame_img06.png</File>
+  </SourceFiles>
+</SourceFileCollection>
