@@ -4,8 +4,9 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>c:/Users/qweas/Documents/Visual Studio 2015/Projects/football/football/Content/monogame_img03.png</File>
-    <File>c:/Users/qweas/Documents/Visual Studio 2015/Projects/football/football/Content/monogame_img04.png</File>
-    <File>c:/Users/qweas/Documents/Visual Studio 2015/Projects/football/football/Content/monogame_img06.png</File>
+    <File>C:/Users/qweas/documents/visual studio 2015/Projects/football/football/Content/monogame_img03.png</File>
+    <File>C:/Users/qweas/documents/visual studio 2015/Projects/football/football/Content/monogame_img04.png</File>
+    <File>C:/Users/qweas/documents/visual studio 2015/Projects/football/football/Content/monogame_img06.png</File>
+    <File>C:/Users/qweas/documents/visual studio 2015/Projects/football/football/Content/SoccerFont.spritefont</File>
   </SourceFiles>
 </SourceFileCollection>

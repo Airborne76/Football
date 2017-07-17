@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace football
 {
@@ -15,6 +16,7 @@ namespace football
         private Texture2D _backgroundTexture;
         private Texture2D _ballTexture;
         private Texture2D _Goalkeeper;
+        private SpriteFont _soccerFont;
         private int _screenWidth;
         private int _screenHeight;
         private Rectangle _backgroundRectangle;
@@ -22,7 +24,20 @@ namespace football
         private Vector2 _ballPosition;
         private Vector2 _initialBallPosition;
         private int _goalLinePosition;
+        private Rectangle _goalkeeperRectangle;
+        private int _goalkeeperPostionX;
+        private int _goalkeeperPostionY;
+        private int _goalkeeperWidth;
+        private int _goalkeeperHight;
         private bool _isBallMoving;
+        private TimeSpan _startMovement;
+        private double _aCoef;
+        private double _deltaCoef;
+        private int _scorePosition;
+        private string _scoreText;
+        private int _userScore;
+        private int _computerScore;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -38,6 +53,7 @@ namespace football
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            LoadContent();
             ResetWindowsSize();
             Window.ClientSizeChanged += (s, e) => ResetWindowsSize();
             base.Initialize();
@@ -55,7 +71,26 @@ namespace football
             _ballPosition.Y = (int)_initialBallPosition.Y;
             _ballRectangle = new Rectangle((int)_initialBallPosition.X, (int)_initialBallPosition.Y, ballDimension, ballDimension);
             _goalLinePosition = (int)(_screenHeight * 0.05);
+            _goalkeeperPostionY = (int)(_screenHeight * 0.12);
+            _goalkeeperHight = (int)(_screenWidth * 0.01);
+            _goalkeeperWidth = (int)(_screenWidth * 0.05);
+            _goalkeeperPostionX = (_screenWidth - _goalkeeperWidth) / 2;
+            _scoreText = $"{_userScore} : {_computerScore}";
+            var scoreSize = _soccerFont.MeasureString(_scoreText);            
+            _scorePosition = (int)((_screenWidth - scoreSize.X)/2.0);
         }
+        private void ResetGame()
+        {
+            _ballPosition = new Vector2(_initialBallPosition.X, _initialBallPosition.Y);
+            _goalkeeperPostionX = (_screenWidth - _goalkeeperWidth) / 2;
+            _isBallMoving = false;
+            _scoreText = $"{_userScore} : {_computerScore}";
+            var scoreSize = _soccerFont.MeasureString(_scoreText);
+            _scorePosition = (int)((_screenWidth - scoreSize.X) / 2.0);
+
+        }
+
+
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
@@ -67,6 +102,7 @@ namespace football
             _backgroundTexture = Content.Load<Texture2D>("monogame_img03");
             _ballTexture = Content.Load<Texture2D>("monogame_img04");
             _Goalkeeper = Content.Load<Texture2D>("monogame_img06");
+            _soccerFont = Content.Load<SpriteFont>("SoccerFont");
             // TODO: use this.Content to load your game content here
         }
 
@@ -89,22 +125,39 @@ namespace football
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             // TODO: Add your update logic here
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+            if (!_isBallMoving)
             {
-                _isBallMoving = true;
+                if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                {
+                    _isBallMoving = true;
+                    _startMovement = gameTime.TotalGameTime;
+                    var rnd = new Random();
+                    _aCoef = rnd.NextDouble() * 0.01;
+                    _deltaCoef = rnd.NextDouble() * Math.PI / 2;
+                }
             }
+
             if (_isBallMoving)
             {
                 _ballPosition.X -= 0.5f;
                 _ballPosition.Y -= 3;
+                _goalkeeperPostionX = (int)((_screenWidth * 0.11)*Math.Sin(_aCoef*gameTime.TotalGameTime.TotalMilliseconds+_deltaCoef)+(_screenWidth*0.75)/2.0+_screenWidth*0.11);
+                if (_goalkeeperRectangle.Intersects(_ballRectangle))
+                {
+                    _computerScore++;
+                    ResetGame();
+                }
                 if (_ballPosition.Y < _goalLinePosition)
                 {
                     _ballPosition = new Vector2(_initialBallPosition.X, _initialBallPosition.Y);
                     _isBallMoving = false;
+                    _userScore++;
+                    ResetGame();
                 }
                 _ballRectangle.X = (int)_ballPosition.X;
-                _ballRectangle.Y = (int)_ballPosition.Y;               
+                _ballRectangle.Y = (int)_ballPosition.Y;
             }
+            _goalkeeperRectangle = new Rectangle(_goalkeeperPostionX, _goalkeeperPostionY, _goalkeeperWidth, _goalkeeperHight);
             base.Update(gameTime);
         }
 
@@ -131,6 +184,8 @@ namespace football
             //    (int)(screenHeight * 0.035);
             //var ballRectangle = new Rectangle(initialBallPositionX, initialBallPositionY, ballDimension, ballDimension);
             spriteBatch.Draw(_ballTexture, _ballRectangle, Color.White);
+            spriteBatch.Draw(_Goalkeeper, _goalkeeperRectangle, Color.White);
+            spriteBatch.DrawString(_soccerFont, _scoreText, new Vector2(_scorePosition, _screenHeight * 0.9f), Color.White);
             spriteBatch.End();
             base.Draw(gameTime);
             // TODO: Add your drawing code here

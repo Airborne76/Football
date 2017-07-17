@@ -23,3 +23,5 @@ c:\users\qweas\documents\visual studio 2015\Projects\football\football\obj\x86\D
 c:\users\qweas\documents\visual studio 2015\Projects\football\football\obj\x86\Debug\football.pdb
 c:\Users\qweas\Documents\Visual Studio 2015\Projects\football\football\bin\Windows\x86\Debug\Content\monogame_img03.xnb
 c:\Users\qweas\Documents\Visual Studio 2015\Projects\football\football\bin\Windows\x86\Debug\Content\monogame_img04.xnb
+C:\Users\qweas\documents\visual studio 2015\Projects\football\football\bin\Windows\x86\Debug\Content\monogame_img06.xnb
+C:\Users\qweas\documents\visual studio 2015\Projects\football\football\bin\Windows\x86\Debug\Content\SoccerFont.xnb
